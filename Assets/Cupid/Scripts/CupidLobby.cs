@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class CupidLobby : MonoBehaviour
 {
     public GameObject MatchmakingUI;
-    public Scene GameScene;
+    public string GameScene;
     [Header("Server info")]
     public string serverAddress = "xx.xx.xxx.xx";
     public int cupidPort = 1601;
@@ -49,12 +49,14 @@ public class CupidLobby : MonoBehaviour
 
             WWW req = new WWW(Cupid.CupidURI + "/?password=" + password + "&&username=" + Username);
             yield return req;
-            Debug.Log(req.text);
+            // Debug.Log(req.text);
+            
             string[] data = req.text.Split(',');
             if(data.Length ==2){
                 if(data[0] == "1"){
                     //Game started
-                    SceneManager.LoadScene(GameScene.name);
+                    Cupid.RoomPort = int.Parse(data[1]);
+                    SceneManager.LoadScene(GameScene);
                     matchmaking=false;
                     break;
                 }else{
@@ -64,7 +66,7 @@ public class CupidLobby : MonoBehaviour
                 try{
                     gamePort = int.Parse(data[1]);
                 }catch(Exception e){
-                    Debug.LogError("Couldn't parse game port: " + req.text);
+                    Logger.Log("Couldn't parse game port: " + req.text);
                 }
             }
 

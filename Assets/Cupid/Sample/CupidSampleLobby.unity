@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 697625873}
   - component: {fileID: 697625872}
   m_Layer: 0
-  m_Name: LobbyMg
+  m_Name: LobbyMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,8 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MatchmakingUI: {fileID: 537681240}
-  GameScene:
-    m_Handle: 0
+  GameScene: CupidGame
   serverAddress: vps.playpoolstudios.com
   cupidPort: 1601
   password: xyz@123

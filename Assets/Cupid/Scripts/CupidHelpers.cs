@@ -19,6 +19,9 @@ public static class Cupid
     public static bool isInitialized => settings!=null;
 
 
+    public static int RoomPort =-1;
+
+
     public static async Task Init(string _serverAddress, int _port, string _password){
         serverAddress= _serverAddress;
         port = _port;
