@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class CupidLobby : MonoBehaviour
 {
-    public GameObject MatchmakingUI;
-    public string GameScene;
+    [SerializeField]private GameObject MatchmakingUI;
+    [SerializeField]private string GameScene;
     [Header("Server info")]
-    public string serverAddress = "xx.xx.xxx.xx";
-    public int cupidPort = 1601;
-    public string password = "xyz@123";
+    [SerializeField]private string serverAddress = "xx.xx.xxx.xx";
+    [SerializeField]private int cupidPort = 1601;
+    [SerializeField]private string password = "xyz@123";
 
     public static string Username
     {
@@ -37,6 +37,7 @@ public class CupidLobby : MonoBehaviour
     bool matchmaking = false;
     public void Matchmake()
     {
+        Logger.Log("Starting matchmake as " + Username);
         StartCoroutine(matchmake());
     }
 
@@ -50,33 +51,63 @@ public class CupidLobby : MonoBehaviour
             WWW req = new WWW(Cupid.CupidURI + "/?password=" + password + "&&username=" + Username);
             yield return req;
             // Debug.Log(req.text);
-            
-            string[] data = req.text.Split(',');
-            if(data.Length ==2){
-                if(data[0] == "1"){
-                    //Game started
-                    Cupid.RoomPort = int.Parse(data[1]);
-                    SceneManager.LoadScene(GameScene);
-                    matchmaking=false;
-                    break;
-                }else{
-                    //Game not started gotta continue
-                }
-                int gamePort = -1;
-                try{
-                    gamePort = int.Parse(data[1]);
-                }catch(Exception e){
-                    Logger.Log("Couldn't parse game port: " + req.text);
-                }
+            CupidRoom? room = Cupid.ParseRoom(req.text);
+            if(room == null){
+                Logger.Log("No room : " + req.text);
+            }else{
+                CupidRoom _room = (CupidRoom)room;
+                Logger.Log("Got into a room");
+                Logger.Log(req.text);
+                Logger.Log("Setting cupid to load game scene");
+                Cupid.RoomPort = _room.Port;
+                matchmaking=false;
+                Logger.Log("Loading game scene");
+                SceneManager.LoadScene(GameScene);
             }
 
+
+            // string[] data = req.text.Split(',');
+            // if(data.Length ==2){
+            //     Logger.Log(req.text);
+            //     if(data[0] == "1"){
+            //         //Game started
+            //         Logger.Log("Setting cupid room to " + data[1]);
+
+            //         Cupid.RoomPort = int.Parse(data[1]);
+            //         Logger.Log("Loading scene " + GameScene);
+
+            //         SceneManager.LoadScene(GameScene);
+            //         matchmaking=false;
+            //         break;
+            //     }else{
+            //         //Game not started gotta continue
+            //     }
+            //     int gamePort = -1;
+            //     try{
+            //         gamePort = int.Parse(data[1]);
+            //     }catch(Exception e){
+            //         Logger.Log("Couldn't parse game port: " + req.text);
+            //     }
+            // }
+
             yield return new WaitForSeconds(1);
+        }
+    }
+
+    IEnumerator CancelMatchmake(){
+        WWW www = new WWW(Cupid.CupidURI + "/cancel?password=" + password + "&&username=" + Username);
+        yield return www;
+        if(www.text == "1"){
+            Logger.Log("Cancelled matchmaking success");
+        }else{
+            Logger.Log("Matchmaking cancellation said " + www.text);
         }
     }
 
     public void Cancel()
     {
         matchmaking = false;
+        StartCoroutine(CancelMatchmake());
         RefreshMatchmakingPanel();
     }
 

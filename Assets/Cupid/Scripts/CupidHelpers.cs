@@ -38,10 +38,10 @@ public static class Cupid
             try{
                 settings = JsonUtility.FromJson<CupidSettings>(www.downloadHandler.text);
                 if(settings==null){throw new NullReferenceException();}
-                Debug.Log("Cupid init success");
+                Logger.Log("Cupid init success");
             }catch(Exception e){
-                Debug.Log("Error retreiving settings from server " + e.Message);
-                Debug.Log(www.downloadHandler.text);
+                Logger.Log("Error retreiving settings from server " + e.Message);
+                Logger.Log(www.downloadHandler.text);
             }
         }
     }
@@ -58,6 +58,15 @@ public static class Cupid
             return output;
         }
     }
+
+    public static CupidRoom? ParseRoom(string data){
+        CupidRoom? room = null;
+        try{
+            room = JsonUtility.FromJson<CupidRoom>(data);
+        }catch{}
+
+        return room;
+    }
 }
 
 [System.Serializable]
@@ -66,4 +75,17 @@ public class CupidSettings
     public int minimum_players;
     public int maximum_players;
     public int waiting_time;
+}
+
+[System.Serializable]
+public struct CupidRoom{
+    public CupidQueueEntry[] Players;
+    public int Port;
+    public uint InitTime;
+}
+
+[System.Serializable]
+public struct CupidQueueEntry{
+    string Name;
+    uint LastSeen;
 }

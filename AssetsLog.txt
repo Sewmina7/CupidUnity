@@ -1,3 +1,19 @@
-Logger initiated at 11/15/2022 11:36:37 AM
+Logger initiated at 11/19/2022 4:45:52 PM
 
-[11/15/2022 11:36:37 AM] Starting client at $vps.playpoolstudios.com:2852
+[11/19/2022 4:45:52 PM] Cupid init success
+[11/19/2022 4:45:53 PM] Starting matchmake as KQ8N0
+[11/19/2022 4:45:53 PM] No room : 0
+[11/19/2022 4:45:53 PM] Cancelled matchmaking success
+[11/19/2022 4:45:54 PM] Starting matchmake as KQ8N0
+[11/19/2022 4:45:54 PM] No room : 0
+[11/19/2022 4:45:55 PM] No room : 0
+[11/19/2022 4:45:56 PM] Cancelled matchmaking success
+[11/19/2022 4:46:13 PM] Starting matchmake as KQ8N0
+[11/19/2022 4:46:13 PM] No room : 0
+[11/19/2022 4:46:14 PM] No room : 0
+[11/19/2022 4:46:14 PM] Cancelled matchmaking success
+[11/19/2022 4:47:30 PM] Starting matchmake as KQ8N0
+[11/19/2022 4:47:30 PM] No room : 0
+[11/19/2022 4:47:31 PM] No room : 0
+[11/19/2022 4:47:32 PM] No room : 0
+[11/19/2022 4:47:33 PM] Cancelled matchmaking success
